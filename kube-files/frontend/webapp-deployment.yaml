@@ -14,7 +14,6 @@ spec:
       labels:
         name: simple-webapp-mysql
     spec:
-      #serviceAccountName: group5
       containers:
         - name: simple-webapp-mysql
           image: 740081625158.dkr.ecr.us-east-1.amazonaws.com/ecr-repo:v0.2
@@ -24,39 +23,16 @@ spec:
             - secretRef:
                 name: db-secret
           env:
-            - name: IMAGE_URL_PATH
-              valueFrom: 
-                configMapKeyRef:
-                  name: webapp-config
-                  key: IMAGE_URL_PATH
-            - name: IMAGE_URL_S3
-              valueFrom: 
-                configMapKeyRef:
-                  name: webapp-config
-                  key: IMAGE_URL_S3
             - name: GROUP
               valueFrom: 
                 configMapKeyRef:
                   name: webapp-config
                   key:  GROUP
-            - name: Team-Name
-              valueFrom:
-                configMapKeyRef:
-                  name: webapp-config
-                  key: team
           volumeMounts:
             - name: app-secret-volumes
               mountPath: "/opt/app-secret-volumes"
               readOnly: true
-  #          - name: config-volume
-  #            mountPath: /clo835/config
       volumes:
         - name: app-secret-volumes
           secret:
             secretName: db-secret
-  #      - name: config-volume
-  #        configMap:
-  #          name: webapp-config
-  #          items:
-  #            - key: image_s3_url
-  #              path: image_s3_url
